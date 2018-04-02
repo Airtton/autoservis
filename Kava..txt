@@ -1,0 +1,20 @@
+﻿1.Kas autoost või hooldus {DONE}
+
+OST:
+- kui ost, siis antakse ette autonimekiri.{DONE}
+	- kui ostab, siis ostab, siis küsitakse, kas ta tahab tšekki või ei{DONE}
+		- kui ei, siis saadetakse algusesse tagasi.{DONE}
+		- kui jah, siis kästakse ära maksta.{DONE}
+	- kui ei osta ja nimekiri on tühi, siis öeldakse talle head aega.{DONE}
+	- kui ei osta ja nimekirjas on miskit, siis väljastatakse lõplik hind ning saadetakse kassasse{DONE}
+
+HOOLDUS:
+- kui hooldus, siis küsitakse, mis on tema probleem. {DONE}
+	-auto vajab rehvivahetust.
+	-auto vajab õlivahetust.
+	-auto vajab vigade analüüsi.
+	
+	
+	
+(HINNALIST, SUMMEERIB KÕIK HINNAD ÄRA)
+// Alguses küsimus kas välishooldus sise või mootor
