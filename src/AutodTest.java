@@ -69,6 +69,7 @@ public class AutodTest extends Autod {
                         }
                         else {
                             System.out.println("Oled saadetud algusesse tagasi. ");
+                            tõeväärtus = false;
                             s.space(3);
                         }
                     }
@@ -80,8 +81,8 @@ public class AutodTest extends Autod {
                             }
                             s.space(2);
                             System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
-                            tõeväärtus = false;
                             running = false;
+                            break;
                         }
                         else if (tõeväärtus){
                             tõeväärtus = false;
@@ -143,15 +144,19 @@ public class AutodTest extends Autod {
                                         System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
 
                                         running = false;
+                                        break;
 
 
                                     } else {
                                         System.out.println("Oled saadetud algusesse tagasi. ");
                                         s.space(3);
+                                        soovHooldus ="";
                                     }
 
                                 } else if (mishooldus.toLowerCase().equals("ei")) {
+                                    soovHooldus ="";
 
+                                    System.out.println("Teie ostukorv: ");
                                     if (Ostukorv.size() != 0 && tõeväärtus) {
                                         for (int j = 0; j < Ostukorv.size(); j++) {
 
@@ -159,8 +164,9 @@ public class AutodTest extends Autod {
                                         }
                                         s.space(2);
                                         System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
-                                        tõeväärtus = false;
+
                                         running = false;
+                                        break;
         // VAATA SEDA RIDA RSK
                                     } else if (tõeväärtus) {
                                         tõeväärtus = false;

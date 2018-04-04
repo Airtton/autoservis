@@ -106,16 +106,17 @@ public class Muudatused_K extends Autod {
 
 
                 for (int i = 0; i < Hooldus.HoolduseNimetused((failHooldusTuup)).size(); i++) {
-                    if (Hooldus.HoolduseNimetused(failHooldusTuup).get(i).toLowerCase().contains(soovHooldus)) { // KONTROLLIB ÜLE, MILLINE AUTO MATCHIB VASTUSEGA
-                        s.space(1);
-                        System.out.println("Valisite selle hoolduse: " + Hooldus.HoolduseNimetused((failHooldusTuup)).get(i));
-                        s.space(1);
-                    }
-                    if (soovHooldus.toLowerCase().contains("mootor")) {
 
+                    if (soovHooldus.toLowerCase().contains("mootor")) {
+                        if (Hooldus.HoolduseNimetused(failHooldusTuup).get(i).toLowerCase().contains(soovHooldus)) { // KONTROLLIB ÜLE, MILLINE AUTO MATCHIB VASTUSEGA
+                            s.space(1);
+                            System.out.println("Valisite selle hoolduse: " + Hooldus.HoolduseNimetused((failHooldusTuup)).get(i));
+                            s.space(1);
+                        }
                         for (int k = 0; k < Hooldus.HooldusMootor(failmootorihooldus).size(); k++) {// VÄLJASTAB NIMEKIRJA
                             System.out.println(Hooldus.HooldusMootor(failmootorihooldus).get(k));
                         }
+
                         String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase(); //SKÄNNIB VALITUD AUTOT
 
                         if (Hooldus.HoolduseNimetused((failmootorihooldus)).get(i).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
@@ -134,14 +135,15 @@ public class Muudatused_K extends Autod {
                                 }
                                 s.space(2);
                                 System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
-
+                                tõeväärtus = false;
                                 running = false;
                                 break;
-
-
-                            } else {
+                            }
+                            else {
                                 System.out.println("Oled saadetud algusesse tagasi. ");
                                 s.space(3);
+                                soovHooldus = "";
+                                tõeväärtus = false;
                             }
 
                         } else if (mishooldus.toLowerCase().equals("ei")) {
@@ -164,7 +166,11 @@ public class Muudatused_K extends Autod {
                         }
 
                     } else if (soovHooldus.toLowerCase().contains("kere")) {
-
+                        if (Hooldus.HoolduseNimetused(failHooldusTuup).get(i).toLowerCase().contains(soovHooldus)) { // KONTROLLIB ÜLE, MILLINE AUTO MATCHIB VASTUSEGA
+                            s.space(1);
+                            System.out.println("Valisite selle hoolduse: " + Hooldus.HoolduseNimetused((failHooldusTuup)).get(i));
+                            s.space(1);
+                        }
                         for (int j = 0; j < Hooldus.HoolduseNimetused((failkerehooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
                             System.out.println(Hooldus.HoolduseNimetused((failkerehooldus)).get(j));
                         }
@@ -190,7 +196,7 @@ public class Muudatused_K extends Autod {
                                     }
                                     s.space(2);
                                     System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
-
+                                    soovHooldus = "";
                                     running = false;
                                     break;
 
@@ -198,6 +204,7 @@ public class Muudatused_K extends Autod {
                                 } else {
                                     System.out.println("Oled saadetud algusesse tagasi. ");
                                     s.space(3);
+                                    soovHooldus = "";
                                 }
 
                             } else if (mishooldus.toLowerCase().equals("ei")) {
@@ -223,6 +230,11 @@ public class Muudatused_K extends Autod {
                         }
                     } else if (soovHooldus.toLowerCase().contains("salong")) {
 
+                        if (Hooldus.HoolduseNimetused(failHooldusTuup).get(i).toLowerCase().contains(soovHooldus)) { // KONTROLLIB ÜLE, MILLINE AUTO MATCHIB VASTUSEGA
+                            s.space(1);
+                            System.out.println("Valisite selle hoolduse: " + Hooldus.HoolduseNimetused((failHooldusTuup)).get(i));
+                            s.space(1);
+                        }
                         for (int j = 0; j < Hooldus.HooldusSalong((failsalongihooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
                             System.out.println(Hooldus.HooldusSalong((failsalongihooldus)).get(j));
                         }
@@ -248,7 +260,7 @@ public class Muudatused_K extends Autod {
                                     }
                                     s.space(2);
                                     System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
-
+                                    soovHooldus = "";
                                     running = false;
                                     break;
 
@@ -257,6 +269,7 @@ public class Muudatused_K extends Autod {
                                 } else {
                                     System.out.println("Oled saadetud algusesse tagasi. ");
                                     s.space(3);
+                                    soovHooldus = "";
                                 }
 
                             } else if (mishooldus.toLowerCase().equals("ei")) {
