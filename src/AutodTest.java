@@ -99,7 +99,7 @@ public class AutodTest extends Autod {
                 }
                 Scanner skan = new Scanner(System.in);
                 System.out.println();//TÜHI RIDA
-                System.out.println("Millist hooldust soovite?");
+                System.out.println("Millist hooldust soovite?");        /// TEE SKANNERIGA
                 String soovHooldus = skan.nextLine().toLowerCase();
 
 
