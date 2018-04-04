@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.BreakIterator;
 import java.util.*;
 
 public class Muudatused_K extends Autod {
@@ -20,6 +21,9 @@ public class Muudatused_K extends Autod {
 
         File fail = new File("Autod.txt");
         File failHooldusTuup = new File("Hooldus.txt");
+        File failmootorihooldus = new File("MootoriHooldus.txt");
+        File failsalongihooldus = new File("SalongiHooldus.txt");
+        File failkerehooldus = new File("KereHooldus.txt");
 
 
         boolean running = true;
@@ -47,7 +51,7 @@ public class Muudatused_K extends Autod {
                 for (int i = 0; i < Autod.autoNimed((fail)).size(); i++) {
 
                     if (Autod.autoNimed((fail)).get(i).toLowerCase().contains(misauto)) { // KONTROLLIB ÜLE, MILLINE AUTO MATCHIB VASTUSEGA
-                        System.out.println();
+                        s.space(1);
                         Ostukorv.add((Autod.autoNimed((fail)).get(i)));// LISAB SELLE VALIKU OSTUKORVI
                         System.out.println("Auto lisati ostukorvi");
                         String misedasi = s.kysi("Kas soovid kviitungit?");
@@ -65,6 +69,8 @@ public class Muudatused_K extends Autod {
                             System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
 
                             running = false;
+
+                            break;
 
 
                         } else {
@@ -100,194 +106,178 @@ public class Muudatused_K extends Autod {
 
 
                 for (int i = 0; i < Hooldus.HoolduseNimetused((failHooldusTuup)).size(); i++) {
-
                     if (Hooldus.HoolduseNimetused(failHooldusTuup).get(i).toLowerCase().contains(soovHooldus)) { // KONTROLLIB ÜLE, MILLINE AUTO MATCHIB VASTUSEGA
                         s.space(1);
-
                         System.out.println("Valisite selle hoolduse: " + Hooldus.HoolduseNimetused((failHooldusTuup)).get(i));
-
                         s.space(1);
+                    }
+                    if (soovHooldus.toLowerCase().contains("mootor")) {
 
-                        if (Hooldus.HoolduseNimetused((failHooldusTuup)).get(i).equals(Hooldus.HoolduseNimetused((failHooldusTuup)).get(i))) {
+                        for (int k = 0; k < Hooldus.HooldusMootor(failmootorihooldus).size(); k++) {// VÄLJASTAB NIMEKIRJA
+                            System.out.println(Hooldus.HooldusMootor(failmootorihooldus).get(k));
+                        }
+                        String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase(); //SKÄNNIB VALITUD AUTOT
+
+                        if (Hooldus.HoolduseNimetused((failmootorihooldus)).get(i).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
+                            System.out.println();
+                            Ostukorv.add((Hooldus.HoolduseNimetused((failmootorihooldus)).get(i)));// LISAB SELLE VALIKU OSTUKORVI
+                            System.out.println("Teenus lisati ostukorvi");
+                            String misedasi = s.kysi("Kas soovid kviitungit?");
+                            s.space(3);
+
+                            if (misedasi.toLowerCase().equals("jah")) {
+                                System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
+                                System.out.println("Teie ostunimekiri:");
+                                for (int l = 0; l < Ostukorv.size(); l++) {
+
+                                    System.out.println(Ostukorv.get(l));//valjastame ilusti tabelina ostukorvi
+                                }
+                                s.space(2);
+                                System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
+
+                                running = false;
+                                break;
 
 
-                            File failmootorihooldus = new File("MootoriHooldus.txt");
-
-                            for (int j = 0; j < Hooldus.HoolduseNimetused((failmootorihooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
-                                System.out.println(Hooldus.HoolduseNimetused((failmootorihooldus)).get(j));
+                            } else {
+                                System.out.println("Oled saadetud algusesse tagasi. ");
+                                s.space(3);
                             }
 
+                        } else if (mishooldus.toLowerCase().equals("ei")) {
 
-                            String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase(); //SKÄNNIB VALITUD AUTOT
+                            if (Ostukorv.size() != 0 && tõeväärtus) {
+                                for (int j = 0; j < Ostukorv.size(); j++) {
 
-                            for (int k = 0; k < Hooldus.HoolduseNimetused((failmootorihooldus)).size(); k++) {
+                                    System.out.println(Ostukorv.get(j));//valjastame ilusti tabelina ostukorvi
+                                }
+                                s.space(2);
+                                System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
+                                tõeväärtus = false;
+                                running = false;
+                                // VAATA SEDA RIDA RSK
+                            } else if (tõeväärtus) {
+                                System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
+                                tõeväärtus = false;
+                            }
 
-                                if (Hooldus.HoolduseNimetused((failmootorihooldus)).get(k).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
-                                    System.out.println();
-                                    Ostukorv.add((Hooldus.HoolduseNimetused((failmootorihooldus)).get(k)));// LISAB SELLE VALIKU OSTUKORVI
-                                    System.out.println("Teenus lisati ostukorvi");
-                                    String misedasi = s.kysi("Kas soovid kviitungit?");
+                        }
+
+                    } else if (soovHooldus.toLowerCase().contains("kere")) {
+
+                        for (int j = 0; j < Hooldus.HoolduseNimetused((failkerehooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
+                            System.out.println(Hooldus.HoolduseNimetused((failkerehooldus)).get(j));
+                        }
+
+                        String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase();
+
+                        for (int k = 0; k < Hooldus.HoolduseNimetused((failkerehooldus)).size(); k++) {
+
+                            if (Hooldus.HoolduseNimetused((failkerehooldus)).get(k).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
+                                System.out.println();
+                                Ostukorv.add((Hooldus.HoolduseNimetused((failkerehooldus)).get(k)));// LISAB SELLE VALIKU OSTUKORVI
+                                System.out.println("Teenus lisati ostukorvi");
+                                String misedasi = s.kysi("Kas soovid kviitungit?");
+                                s.space(3);
+
+                                if (misedasi.toLowerCase().equals("jah")) {
+                                    System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
+                                    System.out.println("Teie ostunimekiri:");
+
+                                    for (int l = 0; l < Ostukorv.size(); l++) {
+
+                                        System.out.println(Ostukorv.get(l));//valjastame ilusti tabelina ostukorvi
+                                    }
+                                    s.space(2);
+                                    System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
+
+                                    running = false;
+                                    break;
+
+
+                                } else {
+                                    System.out.println("Oled saadetud algusesse tagasi. ");
                                     s.space(3);
+                                }
 
-                                    if (misedasi.toLowerCase().equals("jah")) {
-                                        System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
-                                        System.out.println("Teie ostunimekiri:");
+                            } else if (mishooldus.toLowerCase().equals("ei")) {
 
-                                        for (int l = 0; l < Ostukorv.size(); l++) {
+                                if (Ostukorv.size() != 0 && tõeväärtus) {
+                                    for (int j = 0; j < Ostukorv.size(); j++) {
 
-                                            System.out.println(Ostukorv.get(l));//valjastame ilusti tabelina ostukorvi
-                                        }
-                                        s.space(2);
-                                        System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
-
-                                        running = false;
-
-
-                                    } else {
-                                        System.out.println("Oled saadetud algusesse tagasi. ");
-                                        s.space(3);
+                                        System.out.println(Ostukorv.get(j));//valjastame ilusti tabelina ostukorvi
                                     }
+                                    s.space(2);
+                                    System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
+                                    tõeväärtus = false;
+                                    running = false;
+                                    break;
 
-                                } else if (mishooldus.toLowerCase().equals("ei")) {
-
-                                    if (Ostukorv.size() != 0 && tõeväärtus) {
-                                        for (int j = 0; j < Ostukorv.size(); j++) {
-
-                                            System.out.println(Ostukorv.get(j));//valjastame ilusti tabelina ostukorvi
-                                        }
-                                        s.space(2);
-                                        System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
-                                        tõeväärtus = false;
-                                        running = false;
-                                        // VAATA SEDA RIDA RSK
-                                    } else if (tõeväärtus) {
-                                        tõeväärtus = false;
-                                        System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
-                                    }
-
+                                } else if (tõeväärtus) {
+                                    System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
+                                    tõeväärtus = false;
                                 }
 
                             }
-                        }else if (Hooldus.HoolduseNimetused((failHooldusTuup)).get(i).equals(Hooldus.HoolduseNimetused((failHooldusTuup)).get(i))) {
+
+                        }
+                    } else if (soovHooldus.toLowerCase().contains("salong")) {
+
+                        for (int j = 0; j < Hooldus.HooldusSalong((failsalongihooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
+                            System.out.println(Hooldus.HooldusSalong((failsalongihooldus)).get(j));
+                        }
+
+                        String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase(); //SKÄNNIB VALITUD AUTOT
+
+                        for (int k = 0; k < Hooldus.HooldusSalong((failsalongihooldus)).size(); k++) {
+
+                            if (Hooldus.HooldusSalong((failsalongihooldus)).get(k).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
+                                System.out.println();
+                                Ostukorv.add((Hooldus.HooldusSalong((failsalongihooldus)).get(k)));// LISAB SELLE VALIKU OSTUKORVI
+                                System.out.println("Teenus lisati ostukorvi");
+                                String misedasi = s.kysi("Kas soovid kviitungit?");
+                                s.space(3);
+
+                                if (misedasi.toLowerCase().equals("jah")) {
+                                    System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
+                                    System.out.println("Teie ostunimekiri:");
+
+                                    for (int l = 0; l < Ostukorv.size(); l++) {
+
+                                        System.out.println(Ostukorv.get(l));//valjastame ilusti tabelina ostukorvi
+                                    }
+                                    s.space(2);
+                                    System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
+
+                                    running = false;
+                                    break;
 
 
-                            File failkerehooldus = new File("KereHooldus.txt");
 
-                            for (int j = 0; j < Hooldus.HoolduseNimetused((failkerehooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
-                                System.out.println(Hooldus.HoolduseNimetused((failkerehooldus)).get(j));
-                            }
-
-
-                            String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase(); //SKÄNNIB VALITUD AUTOT
-
-                            for (int k = 0; k < Hooldus.HoolduseNimetused((failkerehooldus)).size(); k++) {
-
-                                if (Hooldus.HoolduseNimetused((failkerehooldus)).get(k).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
-                                    System.out.println();
-                                    Ostukorv.add((Hooldus.HoolduseNimetused((failkerehooldus)).get(k)));// LISAB SELLE VALIKU OSTUKORVI
-                                    System.out.println("Teenus lisati ostukorvi");
-                                    String misedasi = s.kysi("Kas soovid kviitungit?");
+                                } else {
+                                    System.out.println("Oled saadetud algusesse tagasi. ");
                                     s.space(3);
+                                }
 
-                                    if (misedasi.toLowerCase().equals("jah")) {
-                                        System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
-                                        System.out.println("Teie ostunimekiri:");
+                            } else if (mishooldus.toLowerCase().equals("ei")) {
 
-                                        for (int l = 0; l < Ostukorv.size(); l++) {
+                                if (Ostukorv.size() != 0 && tõeväärtus) {
+                                    for (int j = 0; j < Ostukorv.size(); j++) {
 
-                                            System.out.println(Ostukorv.get(l));//valjastame ilusti tabelina ostukorvi
-                                        }
-                                        s.space(2);
-                                        System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
-
-                                        running = false;
-
-
-                                    } else {
-                                        System.out.println("Oled saadetud algusesse tagasi. ");
-                                        s.space(3);
+                                        System.out.println(Ostukorv.get(j));//valjastame ilusti tabelina ostukorvi
                                     }
-
-                                } else if (mishooldus.toLowerCase().equals("ei")) {
-
-                                    if (Ostukorv.size() != 0 && tõeväärtus) {
-                                        for (int j = 0; j < Ostukorv.size(); j++) {
-
-                                            System.out.println(Ostukorv.get(j));//valjastame ilusti tabelina ostukorvi
-                                        }
-                                        s.space(2);
-                                        System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
-                                        tõeväärtus = false;
-                                        running = false;
-                                        // VAATA SEDA RIDA RSK
-                                    } else if (tõeväärtus) {
-                                        tõeväärtus = false;
-                                        System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
-                                    }
-
+                                    s.space(2);
+                                    System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
+                                    tõeväärtus = false;
+                                    running = false;
+                                    // VAATA SEDA RIDA RSK
+                                } else if (tõeväärtus) {
+                                    tõeväärtus = false;
+                                    System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
                                 }
 
                             }
-                        }else if (Hooldus.HoolduseNimetused((failHooldusTuup)).get(i).equals(Hooldus.HoolduseNimetused((failHooldusTuup)).get(i))) {
 
-
-                            File failsalongihooldus = new File("SalongiHoldus.txt");
-
-                            for (int j = 0; j < Hooldus.HoolduseNimetused((failsalongihooldus)).size(); j++) {// VÄLJASTAB NIMEKIRJA
-                                System.out.println(Hooldus.HoolduseNimetused((failsalongihooldus)).get(j));
-                            }
-
-
-                            String mishooldus = s.kysi("Valige palun teenus, mida soovite kasutada (väljumise puhul, sisestage ei)").toLowerCase(); //SKÄNNIB VALITUD AUTOT
-
-                            for (int k = 0; k < Hooldus.HoolduseNimetused((failsalongihooldus)).size(); k++) {
-
-                                if (Hooldus.HoolduseNimetused((failsalongihooldus)).get(k).toLowerCase().contains(mishooldus)) { // KONTROLLIB ÜLE, MIS MATCHIB VASTUSEGA
-                                    System.out.println();
-                                    Ostukorv.add((Hooldus.HoolduseNimetused((failsalongihooldus)).get(k)));// LISAB SELLE VALIKU OSTUKORVI
-                                    System.out.println("Teenus lisati ostukorvi");
-                                    String misedasi = s.kysi("Kas soovid kviitungit?");
-                                    s.space(3);
-
-                                    if (misedasi.toLowerCase().equals("jah")) {
-                                        System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
-                                        System.out.println("Teie ostunimekiri:");
-
-                                        for (int l = 0; l < Ostukorv.size(); l++) {
-
-                                            System.out.println(Ostukorv.get(l));//valjastame ilusti tabelina ostukorvi
-                                        }
-                                        s.space(2);
-                                        System.out.println("Kokku tasuda tuleb: " + Summeeri() + "€");
-
-                                        running = false;
-
-
-                                    } else {
-                                        System.out.println("Oled saadetud algusesse tagasi. ");
-                                        s.space(3);
-                                    }
-
-                                } else if (mishooldus.toLowerCase().equals("ei")) {
-
-                                    if (Ostukorv.size() != 0 && tõeväärtus) {
-                                        for (int j = 0; j < Ostukorv.size(); j++) {
-
-                                            System.out.println(Ostukorv.get(j));//valjastame ilusti tabelina ostukorvi
-                                        }
-                                        s.space(2);
-                                        System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
-                                        tõeväärtus = false;
-                                        running = false;
-                                        // VAATA SEDA RIDA RSK
-                                    } else if (tõeväärtus) {
-                                        tõeväärtus = false;
-                                        System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
-                                    }
-
-                                }
-
-                            }
                         }
                     }
                 }
