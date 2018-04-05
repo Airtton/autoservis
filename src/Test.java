@@ -131,6 +131,7 @@ public class Test extends Autod {
 
                                     if (misedasi.toLowerCase().equals("jah")) {
                                         System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
+                                        s.space(1);
                                         System.out.println("Teie ostunimekiri:");
 
                                         for (int l = 0; l < Ostukorv.size(); l++) {
@@ -191,6 +192,7 @@ public class Test extends Autod {
 
                                     if (misedasi.toLowerCase().equals("jah")) {
                                         System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
+                                        s.space(1);
                                         System.out.println("Teie ostunimekiri:");
 
                                         for (int l = 0; l < Ostukorv.size(); l++) {
@@ -251,6 +253,7 @@ public class Test extends Autod {
 
                                     if (misedasi.toLowerCase().equals("jah")) {
                                         System.out.println("Klient: " + Kasutaja.getNimi() + " " + Kasutaja.getPerekonnanimi());
+                                        s.space(1);
                                         System.out.println("Teie ostunimekiri:");
 
                                         for (int l = 0; l < Ostukorv.size(); l++) {
@@ -279,7 +282,7 @@ public class Test extends Autod {
                                         System.out.println("Kokku läheb teil maksma: " + Summeeri() + "€");
                                         tõeväärtus = false;
                                         running = false;
-                                        // VAATA SEDA RIDA RSK
+
                                     } else if (tõeväärtus) {
                                         tõeväärtus = false;
                                         System.out.println("Teie ostukorv on tühi valige 'välju' või 'tagasi poodi'.");
